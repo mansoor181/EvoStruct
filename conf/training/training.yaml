@@ -1,0 +1,45 @@
+# Training Hyperparameters (from WandB run 4x88rr0w)
+
+seed: 42
+gpu: 0
+batch_size: 4
+grad_clip: 0.5
+num_workers: 4
+
+# Phase 1: adapter + GNN + seq_head (ESM frozen)
+lr: 1.0e-4
+max_epoch: 50
+anneal_base: 0.9
+
+# Phase 2: unfreeze top N ESM-2 layers
+esm_unfreeze_top: 4
+phase2_epochs: 40
+phase2_lr: 5.0e-5
+
+# Phase 3: joint low-LR polish
+phase3_epochs: 30
+phase3_lr: 1.0e-5
+
+# Resume / test
+test_only: false
+checkpoint: null
+run_name: null
+
+# Training strategies
+rdrop_alpha: 1.0        # R-Drop squared loss regularization (0 = disabled)
+weight_decay: 0.0       # AdamW weight decay (0 = plain Adam)
+label_smoothing: 0.0    # Label smoothing on seq CE
+es_metric: loss         # Early stopping metric: loss | aar
+ema: false              # EMA weight averaging
+ema_decay: 0.999
+swa: false              # Stochastic weight averaging in Phase 3
+swa_start_pct: 0.5
+
+# Fine-tuning strategies
+lora: false             # LoRA adapters on ESM-2 instead of full unfreezing
+lora_rank: 4
+lora_alpha: 1.0
+joint_lora: false       # Single-phase joint training with LoRA from epoch 1
+disc_lr_decay: 0.0      # Discriminative LR decay per ESM layer (0 = disabled)
+neftune_alpha: 0.0      # NEFTune noise magnitude (0 = disabled)
+l2sp_lambda: 0.0        # L2-SP regularization toward pretrained (0 = disabled)

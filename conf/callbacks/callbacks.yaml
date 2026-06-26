@@ -1,0 +1,8 @@
+# Callbacks
+
+early_stopping:
+  patience: 10
+  mode: min
+
+checkpoint:
+  mode: min

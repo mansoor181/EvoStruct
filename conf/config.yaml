@@ -1,0 +1,28 @@
+# EvoStruct (CoRe v30h) Main Configuration
+# Usage: python trainer.py training.gpu=0 training.max_epoch=50
+#        python trainer.py model.gamma=0.3 training.rdrop_alpha=2.0
+
+defaults:
+  - _self_
+  - model: model
+  - training: training
+  - dataset: dataset
+  - callbacks: callbacks
+  - wandb: wandb
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+# Paths
+data_root: /home/exouser/data/chimera
+data_dir: /home/exouser/data/chimera/trans_baselines/raad
+results_dir: /media/volume/data2/chimera/results/evostruct
+splits_dir: /home/exouser/data/chimera/splits
+
+# CDR numbering scheme
+numbering_scheme: imgt
+
+# Disable hydra output directories
+hydra:
+  output_subdir: null
+  run:
+    dir: .

@@ -1,0 +1,30 @@
+# Model Architecture and Loss Weights
+
+# Architecture
+embed_size: 32
+hidden_size: 256
+n_layers: 5
+dropout: 0.2
+num_attn_heads: 4
+
+# ESM-2 PLM
+esm_model_name: "esm2_t33_650M_UR50D"
+
+# Mini Structural Adapter (v30h)
+adapter_n_blocks: 1
+adapter_dim: 640
+adapter_n_heads: 8
+adapter_max_ag_ctx: 128
+
+# Loss weights
+alpha: 1.376       # coordinate loss (smooth L1)
+beta: 0.525        # contrastive pairing loss (InfoNCE)
+gamma: 0.5         # docking proximity loss
+delta: 0.3         # shadow paratope loss (dyMEAN-style)
+dock_cutoff: 8.0   # CA distance cutoff for epitope definition (A)
+
+# Feature modes
+node_feats_mode: "1111"
+edge_feats_mode: "1111"
+interface_only: 1
+mode: "111"
