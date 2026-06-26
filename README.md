@@ -53,18 +53,6 @@ Input: Ab-Ag complex (backbone coords + sequence)
             logits (L, 25)
 ```
 
-### Parameter Breakdown
-
-| Component | Params |
-|-----------|--------|
-| RelationEGNN (5 layers) | 8,379,427 |
-| MiniStructuralAdapter (1 block) | 5,089,920 |
-| Sequence head | 839,707 |
-| Projection heads (CDR + AG) | 82,304 |
-| AA embedding | 864 |
-| **Total trainable (Phase 1)** | **14,392,222** |
-| ESM-2 650M (frozen) | 651,043,254 |
-| ESM-2 top 4 layers (Phase 2) | +78,712,320 |
 
 ## Training
 
@@ -89,18 +77,7 @@ Input: Ab-Ag complex (backbone coords + sequence)
 | Shadow | 0.3 (delta) | |pred_dist_matrix - true_dist_matrix| for CDR-epitope pairs |
 | R-Drop | 1.0 | (seq_loss_pass1 - seq_loss_pass2)^2 |
 
-### Hyperparameters
 
-| Parameter | Value |
-|-----------|-------|
-| Optimizer | Adam |
-| Weight decay | 0 |
-| Batch size | 4 |
-| Gradient clipping | 0.5 |
-| Dropout | 0.2 |
-| LR schedule | Exponential (gamma=0.9) |
-| Early stopping | Patience 10 (val loss) |
-| CDR numbering | IMGT |
 
 ## Results
 
@@ -116,12 +93,6 @@ Input: Ab-Ag complex (backbone coords + sequence)
 | AbFlowNet | 0.23 | 0.14 | -- | 2.38 | 0.60 | 0.66 |
 | RefineGNN | 0.21 | 0.10 | 8.46 | 2.86 | 0.65 | 0.73 |
 
-### Failure Mode Analysis
-
-- **Vocabulary diversity**: V_eff = 12.4 (vs GNN baselines 3.2-5.3, ground truth 15.5)
-- **Interface enrichment**: r = 0.814 with ground truth (vs next-best 0.677)
-- **Binding-pair correlation**: r = 0.731 (vs next-best 0.685)
-- **Contact AAR**: 22.6% (vs RAAD 20.6%), Non-contact: 51.0% (vs RAAD 43.5%)
 
 ## Directory Structure
 
@@ -250,7 +221,6 @@ python chimera_evaluate.py --aggregate --split epitope_group
 
 Logging is enabled by default (project: `chimera`). Disable with `wandb.enabled=false`.
 
-Reference run: `alibilab-gsu/chimera/4x88rr0w` (v30h_s5_rdrop_cdr3_epitope_group).
 
 ## CHIMERA-Bench Integration
 
