@@ -1,58 +1,6 @@
 # EvoStruct: Structural Adapter for PLM-Based CDR Sequence Design
 
-EvoStruct bridges a frozen ESM-2 protein language model with 3D structural context from an E(3)-equivariant GNN via a cross-attention adapter. It targets the vocabulary collapse problem in antibody CDR design: existing GNN methods over-predict a few amino acids (Tyr, Gly) while ignoring functionally important residues. By operating in ESM-2's representation space, EvoStruct preserves the PLM's evolutionary vocabulary calibration while injecting antigen-specific structural signal.
-
-
-## Architecture
-
-```
-Input: Ab-Ag complex (backbone coords + sequence)
-                    |
-    +---------------+---------------+
-    |                               |
-    v                               v
-  AA Embedding (25->32D)       ESM-2 650M (frozen / partial unfreeze)
-    |                            HC sequence, CDR positions masked
-    v                            extract CDR embeddings (L, 1280D)
-  RelationEGNN                      |
-  (5 layers, 256D hidden)           |
-  8.38M params                      |
-    |                               |
-    v                               |
-  CDR + AG embeddings (256D)        |
-    |                               |
-    +-- Crop top-128 nearest        |
-    |   AG residues by CA dist      |
-    |         |                     |
-    v         v                     |
-  [cdr_h, ag_h] = GNN context      |
-   (L+K, 256D)                     |
-    |                               |
-    +---- MiniStructuralAdapter ----+
-    |         5.09M params          |
-    |                               |
-    |   esm_down: 1280 -> 640       |
-    |   gnn_to_adapter: 256 -> 640  |
-    |         |           |         |
-    |     Q = ESM(CDR)  KV = GNN    |
-    |     (L, 640D)     (L+K, 640D) |
-    |         |           |         |
-    |     CrossAttn (8 heads, 640D) |
-    |     + residual + LayerNorm    |
-    |     FFN (640->1280->640+SiLU) |
-    |     + residual + LayerNorm    |
-    |     esm_up: 640 -> 1280       |
-    |                               |
-    +-------------------------------+
-                    |
-                    v
-            seq_head: LN(1280) -> Linear(1280->640)
-              -> SiLU -> Dropout -> Linear(640->25)
-                    |
-                    v
-            logits (L, 25)
-```
-
+EvoStruct bridges a frozen ESM-2 protein language model with 3D structural context from an E(3)-equivariant GNN via a cross-attention adapter. 
 
 ## Training
 

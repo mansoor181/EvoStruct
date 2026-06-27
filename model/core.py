@@ -450,7 +450,7 @@ class ProteinFeature(nn.Module):
 
 
 class MiniStructuralAdapter(nn.Module):
-    """v30h Mini adapter: 1 block, reduced dimension (640 instead of 1280).
+    """Mini adapter: 1 block, reduced dimension (640).
 
     - Only 1 cross-attention block
     - Works at adapter_dim (640) instead of esm_dim (1280)

@@ -555,7 +555,7 @@ def run_pipeline(c, wandb_run=None):
     ).to(device)
     n_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     n_total = sum(p.numel() for p in model.parameters())
-    print(f"DockDesigner v30h params: {n_trainable:,} trainable / {n_total:,} total")
+    print(f"DockDesigner params: {n_trainable:,} trainable / {n_total:,} total")
 
     strats = []
     if c.ema: strats.append("EMA")
