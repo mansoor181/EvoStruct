@@ -2,6 +2,8 @@
 
 EvoStruct bridges a frozen ESM-2 protein language model with 3D structural context from an E(3)-equivariant GNN via a cross-attention adapter. 
 
+![EvoStruct](data/evostruct.png)
+
 ## Training
 
 3-phase progressive unfreezing schedule:
